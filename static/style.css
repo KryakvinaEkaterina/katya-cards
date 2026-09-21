@@ -1,328 +1,159 @@
-/* =========================================
-   1. БАЗОВЫЕ НАСТРОЙКИ И ПЕРЕМЕННЫЕ
-   ========================================= */
-:root {
-    --bg-color: #0f0f13;          /* Глубокий черный/темно-серый фон */
-    --card-bg: #1a1a24;           /* Цвет карточек (чуть светлее фона) */
-    --text-main: #ffffff;         /* Основной белый текст */
-    --text-secondary: #a0a0b0;    /* Второстепенный текст (даты, подписи) */
-    --accent-pink: #ff9ff3;       /* Яркий розовый акцент */
-    --accent-dark: #c767b4;       /* Темный розовый для кнопок/ховера */
-    --border-radius: 24px;        /* Сильное скругление как в макете */
-    --shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Глубокая тень */
-}
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
+* { margin: 0; padding: 0; box-sizing: border-box; }
 body {
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-main);
-    -webkit-font-smoothing: antialiased;
-    padding-bottom: 80px; /* Место для нижней навигации */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    background: #fff5f8;
+    color: #333;
 }
-
-/* =========================================
-   2. КАРТОЧКИ (ОСНОВНОЙ ЭЛЕМЕНТ ДИЗАЙНА)
-   ========================================= */
-.card {
-    background-color: var(--card-bg);
-    border-radius: var(--border-radius);
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: var(--shadow);
-    border: 1px solid rgba(255, 255, 255, 0.05); /* Тонкая белая обводка для объема */
-}
-
-.card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.card-title {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--text-main);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.card-subtitle {
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    margin-top: 4px;
-}
-
-/* =========================================
-   3. КНОПКИ (СТИЛИЗАЦИЯ ПОД МАКЕТ)
-   ========================================= */
-.btn-primary {
-    background: linear-gradient(135deg, var(--accent-pink), var(--accent-dark));
-    color: #fff;
-    border: none;
-    padding: 15px 30px;
-    border-radius: 50px; /* Капсульная форма */
+.container { max-width: 960px; margin: 0 auto; padding: 16px; }
+header { text-align: center; margin-bottom: 20px; }
+header h1 { color: #d6679a; font-size: 1.6em; }
+nav { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; justify-content: center; }
+nav a {
+    padding: 8px 14px;
+    background: #fff;
+    border: 1px solid #f0d4e0;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #b04a78;
+    font-size: 0.9em;
     font-weight: 600;
-    text-transform: uppercase;
-    font-size: 0.9rem;
-    width: 100%;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 5px 15px rgba(255, 159, 243, 0.3);
+    transition: all 0.2s;
 }
-
-.btn-primary:active {
-    transform: scale(0.98);
+nav a:hover { background: #d6679a; color: #fff; border-color: #d6679a; }
+.stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
 }
-
-.btn-outline {
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: var(--text-main);
-    padding: 12px 24px;
-    border-radius: 50px;
-    cursor: pointer;
-}
-
-/* =========================================
-   4. ФОРМЫ И ВВОДЫ (ПОЛЯ ВВОДА)
-   ========================================= */
-input[type="text"],
-input[type="password"],
-input[type="date"],
-input[type="time"],
-select,
-textarea {
-    width: 100%;
-    background-color: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    padding: 15px;
-    color: var(--text-main);
-    font-size: 1rem;
-    margin-bottom: 15px;
-}
-
-input:focus,
-select:focus,
-textarea:focus {
-    outline: none;
-    border-color: var(--accent-pink);
-    box-shadow: 0 0 0 3px rgba(255, 159, 243, 0.2);
-}
-
-/* =========================================
-   5. СПИСКИ И ЗАДАЧИ (КАК НА СКРИНШОТАХ)
-   ========================================= */
-.task-list {
-    list-style: none;
-}
-
-.task-item {
-    display: flex;
-    align-items: center;
-    padding: 15px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.task-item:last-child {
-    border-bottom: none;
-}
-
-.checkbox-custom {
-    width: 24px;
-    height: 24px;
+.stat-card {
+    background: #fff;
+    border: 1px solid #f0d4e0;
     border-radius: 12px;
-    border: 2px solid var(--accent-pink);
-    margin-right: 15px;
+    padding: 16px;
+    text-align: center;
+}
+.stat-card .label { color: #999; font-size: 0.85em; margin-bottom: 6px; }
+.stat-card .value { color: #d6679a; font-size: 1.5em; font-weight: 700; }
+.progress-wrap { margin: 16px 0; }
+.progress-bar { background: #f0d4e0; border-radius: 20px; height: 24px; overflow: hidden; }
+.progress-fill {
+    background: linear-gradient(90deg, #d6679a, #e88bb5);
+    height: 100%;
+    border-radius: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--accent-pink);
-    font-weight: bold;
-    cursor: pointer;
+    color: #fff;
+    font-size: 0.8em;
+    font-weight: 600;
+    min-width: 30px;
 }
-
-.task-item.completed .task-text {
-    text-decoration: line-through;
-    color: var(--text-secondary);
-}
-
-/* =========================================
-   6. СТАТИСТИКА И ГРАФИКИ (ИМИТАЦИЯ)
-   ========================================= */
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-}
-
-.stat-box {
-    background: rgba(255, 255, 255, 0.03);
-    padding: 15px;
-    border-radius: 16px;
-    text-align: center;
-}
-
-.stat-value {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: var(--accent-pink);
-    display: block;
-}
-
-.stat-label {
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-    margin-top: 4px;
-}
-
-/* Круговая диаграмма (простая имитация через border) */
-.progress-circle {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    border: 6px solid rgba(255, 255, 255, 0.1);
-    border-top-color: var(--accent-pink);
-    margin: 0 auto 15px;
-    animation: spin 2s linear infinite; /* Декоративная анимация */
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* Столбчатая диаграмма (упрощенная) */
-.bar-chart {
-    display: flex;
-    gap: 8px;
-    height: 60px;
-    align-items: flex-end;
-}
-
-.bar {
-    width: 12px;
-    background: linear-gradient(to top, var(--accent-pink), var(--accent-dark));
-    border-radius: 4px 4px 0 0;
-}
-
-/* =========================================
-   7. НИЖНЯЯ НАВИГАЦИЯ (КАК В ПРИЛОЖЕНИИ)
-   ========================================= */
-.bottom-nav {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--card-bg);
-    padding: 10px 30px;
-    border-radius: 50px;
-    display: flex;
-    gap: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-    z-index: 1000;
-}
-
-.nav-item {
-    color: var(--text-secondary);
-    text-decoration: none;
-    font-size: 0.8rem;
-    text-align: center;
-}
-
-.nav-item.active {
-    color: var(--accent-pink);
-    font-weight: bold;
-}
-
-/* =========================================
-   8. АДАПТИВНОСТЬ И СПЕЦИФИЧНЫЕ БЛОКИ
-   ========================================= */
-
-/* Экран входа (как на первом скриншоте) */
-.login-screen {
-    text-align: center;
-    padding-top: 40px;
-    min-height: 80vh;
-}
-
-.login-logo {
-    font-size: 3rem;
-    font-weight: 800;
-    background: linear-gradient(to right, #fff, #ff9ff3);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 10px;
-    text-shadow: 0 0 20px rgba(255, 159, 243, 0.3);
-}
-
-.login-subtitle {
-    color: var(--text-secondary);
-    margin-bottom: 30px;
-    font-size: 0.9rem;
-}
-
-/* Профиль пользователя */
-.profile-header {
-    text-align: center;
-    padding: 20px;
-    border-radius: var(--border-radius);
-    background: rgba(255, 255, 255, 0.05);
+.form-card {
+    background: #fff;
+    border: 1px solid #f0d4e0;
+    border-radius: 12px;
+    padding: 24px;
     margin-bottom: 20px;
 }
-
-.avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid var(--accent-pink);
-    margin-bottom: 10px;
-}
-
-/* Категоризация (иконки/цвета как на скриншоте "Новая задача") */
-.category-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-}
-
-.category-btn {
-    background: rgba(255, 255, 255, 0.05);
-    border: none;
-    color: var(--text-main);
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; margin-bottom: 6px; font-weight: 600; color: #b04a78; }
+.form-group select,
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="date"] {
+    width: 100%;
     padding: 10px;
-    border-radius: 12px;
-    font-size: 0.75rem;
+    border: 1px solid #e0c0d0;
+    border-radius: 8px;
+    font-size: 1em;
+}
+.btn {
+    background: #d6679a;
+    color: #fff;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 1em;
     cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s;
 }
-
-.category-btn.selected {
-    background: var(--accent-pink);
-    color: #000;
-    box-shadow: 0 0 15px rgba(255, 159, 243, 0.5);
+.btn:hover { background: #b84c7d; }
+.btn-small { padding: 5px 12px; font-size: 0.85em; }
+.btn-danger { background: #e55; }
+.btn-danger:hover { background: #c33; }
+.btn-secondary { background: #999; }
+.btn-secondary:hover { background: #777; }
+.who-selector { display: flex; gap: 12px; margin-bottom: 16px; }
+.who-option {
+    flex: 1;
+    padding: 16px;
+    text-align: center;
+    border: 2px solid #e0c0d0;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
 }
-
-/* =========================================
-   9. МЕДИА-ЗАПРОСЫ (ТОНКАЯ НАСТРОЙКА)
-   ========================================= */
-@media (min-width: 768px) {
-    .bottom-nav {
-        display: none; /* На планшетах/ПК скрываем мобильную навигацию */
-    }
-    
-    .card {
-        max-width: 500px;
-        margin: 20px auto;
-    }
+.who-option.active { border-color: #d6679a; background: #fff0f5; color: #d6679a; }
+.product-grid { display: flex; gap: 12px; flex-wrap: wrap; }
+.product-option {
+    flex: 1;
+    min-width: 120px;
+    padding: 14px;
+    text-align: center;
+    border: 2px solid #e0c0d0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
 }
-
+.product-option.active { border-color: #d6679a; background: #fff0f5; }
+.product-option .name { font-weight: 600; color: #333; }
+.product-option .rate { color: #999; font-size: 0.85em; margin-top: 4px; }
+table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+th, td { border: 1px solid #f0d4e0; padding: 10px; text-align: left; }
+th { background: #fff0f5; color: #b04a78; font-weight: 600; }
+tr:hover { background: #fffafa; }
+.flash {
+    padding: 12px 16px;
+    background: #e8f5e9;
+    border: 1px solid #a5d6a7;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    color: #2e7d32;
+}
+h2 { color: #b04a78; margin-bottom: 16px; }
+.analysis-day {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-bottom: 1px solid #f0d4e0;
+}
+.analysis-day .day-name { font-weight: 600; }
+.analysis-day .day-avg { color: #d6679a; font-weight: 600; }
+.rec-plan {
+    background: #fff;
+    border: 1px solid #f0d4e0;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 16px 0;
+}
+.compare-grid { display: flex; gap: 12px; margin: 16px 0; }
+.compare-card {
+    flex: 1;
+    background: #fff;
+    border: 1px solid #f0d4e0;
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+}
+@media (max-width: 600px) {
+    .container { padding: 10px; }
+    header h1 { font-size: 1.3em; }
+    nav a { padding: 6px 10px; font-size: 0.8em; }
+    .stat-grid { grid-template-columns: 1fr 1fr; }
+    .stat-card .value { font-size: 1.2em; }
+    table { font-size: 0.85em; }
+    th, td { padding: 6px; }
+}
