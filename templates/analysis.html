@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Анализ</h2>
+<h2>Средние выдачи стажёрки по дням недели</h2>
+<div class="form-card">
+    {% for item in avg_by_day %}
+    {% if item.count > 0 %}
+    <div class="analysis-day">
+        <span class="day-name">{{ item.day }}</span>
+        <span class="day-avg">{{ item.avg }} карт ({{ item.count }} записей)</span>
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% if not avg_by_day|selectattr('count','gt',0)|list %}
+    <p style="color:#999;text-align:center;padding:20px;">Недостаточно данных. Нужно минимум 2 недели записей.</p>
+    {% endif %}
+</div>
+<h2>Сравнение недель</h2>
+<div class="compare-grid">
+    <div class="compare-card">
+        <div class="label">Прошлая неделя</div>
+        <div class="value">{{ prev_qty }} карт</div>
+        <div style="color:#999;margin-top:4px;">{{ fmt(prev_amt) }}</div>
+    </div>
+    <div class="compare-card">
+        <div class="label">Текущая неделя</div>
+        <div class="value">{{ cur_qty }} карт</div>
+        <div style="color:#999;margin-top:4px;">{{ fmt(cur_amt) }}</div>
+    </div>
+    <div class="compare-card">
+        <div class="label">Разница</div>
+        <div class="value">{{ cur_qty - prev_qty }} карт</div>
+        <div style="color:#999;margin-top:4px;">{{ fmt(cur_amt - prev_amt) }}</div>
+    </div>
+</div>
+<h2>Рекомендация плана на следующую неделю</h2>
+<div class="rec-plan">
+    <p>На основе средних результатов по дням недели за последние 8 недель:</p>
+    <table>
+        <tr><th>День</th><th>Рекомендация</th></tr>
+        {% for day, val in rec_plan.items() %}
+        <tr><td>{{ day }}</td><td>{{ val }} карт</td></tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

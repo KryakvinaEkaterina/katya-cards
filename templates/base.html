@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Katya Cards</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+</head>
+<body>
+<div class="container">
+    <header><h1>Katya Cards</h1></header>
+    {% if session.logged_in %}
+    <nav>
+        <a href="{{ url_for('index') }}">Сегодня</a>
+        <a href="{{ url_for('add') }}">Добавить</a>
+        <a href="{{ url_for('stats') }}">Статистика</a>
+        <a href="{{ url_for('analysis') }}">Анализ</a>
+        <a href="{{ url_for('money') }}">Деньги</a>
+        <a href="{{ url_for('history') }}">История</a>
+        <a href="{{ url_for('export') }}">Экспорт Excel</a>
+        <a href="{{ url_for('logout') }}">Выйти</a>
+    </nav>
+    {% endif %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+</div>
+</body>
+</html>

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Редактировать запись</h2>
+<div class="form-card">
+    <form method="post">
+        <div class="form-group">
+            <label>Кто выдаёт</label>
+            <select name="who">
+                <option value="katya" {% if row['who'] == 'katya' %}selected{% endif %}>Я (Катя)</option>
+                <option value="agent" {% if row['who'] == 'agent' %}selected{% endif %}>Стажёрка</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Продукт</label>
+            <select name="product">
+                {% for key, p in products.items() %}
+                <option value="{{ key }}" {% if row['product'] == key %}selected{% endif %}>{{ p.name }} ({{ p.rate }} руб)</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Дата</label>
+            <input type="date" name="date" value="{{ row['date'] }}" required>
+        </div>
+        <div class="form-group">
+            <label>Количество</label>
+            <input type="number" name="qty" min="1" value="{{ row['qty'] }}" required>
+        </div>
+        <button type="submit" class="btn">Сохранить</button>
+        <a href="{{ url_for('history') }}" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
+{% endblock %}

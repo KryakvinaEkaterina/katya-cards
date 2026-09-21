@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Сегодня</h2>
+<div class="stat-grid">
+    <div class="stat-card">
+        <div class="label">Мои выдачи</div>
+        <div class="value">{{ my_qty }} карт</div>
+    </div>
+    <div class="stat-card">
+        <div class="label">Мой заработок</div>
+        <div class="value">{{ fmt(my_amt) }}</div>
+    </div>
+    <div class="stat-card">
+        <div class="label">Выдачи стажёрки</div>
+        <div class="value">{{ ag_qty }} карт</div>
+    </div>
+    <div class="stat-card">
+        <div class="label">Пассивный доход</div>
+        <div class="value">{{ fmt(ag_amt) }}</div>
+    </div>
+    <div class="stat-card">
+        <div class="label">Всего выдано</div>
+        <div class="value">{{ total_qty }} карт</div>
+    </div>
+    <div class="stat-card">
+        <div class="label">Всего заработано</div>
+        <div class="value">{{ fmt(total_amt) }}</div>
+    </div>
+</div>
+<h2>План на сегодня</h2>
+<div class="progress-wrap">
+    <div class="progress-bar">
+        <div class="progress-fill" style="width: {{ (progress / plan * 100)|round }}%;">
+            {{ progress }} / {{ plan }}
+        </div>
+    </div>
+</div>
+<div class="stat-grid">
+    <div class="stat-card">
+        <div class="label">За неделю выдано</div>
+        <div class="value">{{ week_qty }} карт</div>
+    </div>
+    <div class="stat-card">
+        <div class="label">План на неделю</div>
+        <div class="value">{{ week_plan }} карт</div>
+    </div>
+</div>
+{% endblock %}

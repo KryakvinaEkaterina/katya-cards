@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Статистика</h2>
+<div class="form-card">
+    <form method="get" action="{{ url_for('stats') }}">
+        <div class="form-group" style="display:flex;gap:8px;flex-wrap:wrap;align-items:end;">
+            <div>
+                <label>Период</label>
+                <select name="period" onchange="this.form.submit()">
+                    <option value="today" {% if period=='today' %}selected{% endif %}>Сегодня</option>
+                    <option value="week" {% if period=='week' %}selected{% endif %}>Неделя</option>
+                    <option value="month" {% if period=='month' %}selected{% endif %}>Месяц</option>
+                    <option value="custom" {% if period=='custom' %}selected{% endif %}>Свой период</option>
+                </select>
+            </div>
+            {% if period == 'custom' %}
+            <div><label>С</label><input type="date" name="d_start" value="{{ d_start }}"></div>
+            <div><label>По</label><input type="date" name="d_end" value="{{ d_end }}"></div>
+            {% endif %}
+            <button type="submit" class="btn btn-small">Показать</button>
+        </div>
+    </form>
+</div>
+<div class="stat-grid">
+    <div class="stat-card">
+        <div class="label">Период</div>
+        <div class="value" style="font-size:1em">{{ d_start }} — {{ d_end }}</div>
+    </div>
+    {% for row in by_who %}
+    <div class="stat-card">
+        <div class="label">{{ 'Катя' if row['who']=='katya' else 'Стажёрка' }}</div>
+        <div class="value">{{ row['q'] }} карт / {{ fmt(row['a']) }}</div>
+    </div>
+    {% endfor %}
+</div>
+<h2>Выдачи по дням</h2>
+<div style="background:#fff;border:1px solid #f0d4e0;border-radius:12px;padding:16px;margin-bottom:20px;">
+    <canvas id="dayChart" height="200"></canvas>
+</div>
+<h2>Выдачи по продуктам</h2>
+<div style="background:#fff;border:1px solid #f0d4e0;border-radius:12px;padding:16px;margin-bottom:20px;">
+    <canvas id="productChart" height="200"></canvas>
+</div>
+<script>
+new Chart(document.getElementById('dayChart'), {
+    type: 'bar',
+    data: {
+        labels: {{ days_labels|tojson }},
+        datasets: [{ label: 'Карт', data: {{ days_qty|tojson }}, backgroundColor: '#d6679a', borderRadius: 6 }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+});
+new Chart(document.getElementById('productChart'), {
+    type: 'doughnut',
+    data: {
+        labels: {{ prod_labels|tojson }},
+        datasets: [{ data: {{ prod_qty|tojson }}, backgroundColor: ['#d6679a','#e88bb5','#c4a0d4','#f0c0d0'], borderWidth: 2, borderColor: '#fff' }]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Деньги</h2>
+<p style="color:#999;margin-bottom:16px;">Неделя: {{ w_start }} — {{ w_end }} (зарплата в пятницу)</p>
+<div class="stat-grid">
+    <div class="stat-card">
+        <div class="label">Мой прямой доход</div>
+        <div class="value">{{ fmt(katya_direct) }}</div>
+    </div>
+    <div class="stat-card">
+        <div class="label">Пассивный доход</div>
+        <div class="value">{{ fmt(passive) }}</div>
+    </div>
+    <div class="stat-card">
+        <div class="label">Итого заработано</div>
+        <div class="value">{{ fmt(total_income) }}</div>
+    </div>
+</div>
+<h2>Мои выдачи по продуктам</h2>
+<div class="form-card">
+    <table>
+        <tr><th>Продукт</th><th>Кол-во</th><th>Сумма</th></tr>
+        {% for row in katya_by_product %}
+        <tr>
+            <td>{{ products[row['product']]['name'] if row['product'] in products else row['product'] }}</td>
+            <td>{{ row['q'] }}</td>
+            <td>{{ fmt(row['a']) }}</td>
+        </tr>
+        {% endfor %}
+        {% if not katya_by_product %}
+        <tr><td colspan="3" style="color:#999;text-align:center;">Нет данных за неделю</td></tr>
+        {% endif %}
+    </table>
+</div>
+<h2>Выдачи стажёрки</h2>
+<div class="form-card">
+    <table>
+        <tr><th>Продукт</th><th>Кол-во</th><th>Пассивный доход</th></tr>
+        {% for row in agent_by_product %}
+        <tr>
+            <td>{{ products[row['product']]['name'] if row['product'] in products else row['product'] }}</td>
+            <td>{{ row['q'] }}</td>
+            <td>{{ fmt(row['q'] * 250) }}</td>
+        </tr>
+        {% endfor %}
+        {% if not agent_by_product %}
+        <tr><td colspan="3" style="color:#999;text-align:center;">Нет данных за неделю</td></tr>
+        {% endif %}
+    </table>
+</div>
+<h2>Авансы</h2>
+<div class="form-card">
+    <h2 style="font-size:1.1em;margin-bottom:12px;">Добавить аванс</h2>
+    <form method="post" style="display:flex;gap:8px;flex-wrap:wrap;align-items:end;">
+        <div><label>Кто взял</label>
+            <select name="advance_who">
+                <option value="katya">Я (Катя)</option>
+                <option value="agent">Стажёрка</option>
+            </select>
+        </div>
+        <div><label>Сумма</label><input type="number" name="advance_amount" min="1" required style="width:120px;"></div>
+        <div><label>Дата</label><input type="date" name="advance_date" value="{{ w_start }}"></div>
+        <div><label>Заметка</label><input type="text" name="advance_note" placeholder="необязательно" style="width:150px;"></div>
+        <button type="submit" class="btn btn-small">Добавить</button>
+    </form>
+    <table style="margin-top:16px;">
+        <tr><th>Дата</th><th>Кто</th><th>Сумма</th><th>Заметка</th><th></th></tr>
+        {% for adv in advances %}
+        <tr>
+            <td>{{ adv['date'] }}</td>
+            <td>{{ 'Катя' if adv['who']=='katya' else 'Стажёрка' }}</td>
+            <td>{{ fmt(adv['amount']) }}</td>
+            <td>{{ adv['note'] or '' }}</td>
+            <td>
+                <form method="post" action="{{ url_for('del_advance', rid=adv['id']) }}" style="display:inline;">
+                    <button type="submit" class="btn btn-small btn-danger">Удалить</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        {% if not advances %}
+        <tr><td colspan="5" style="color:#999;text-align:center;">Авансов на этой неделе нет</td></tr>
+        {% endif %}
+    </table>
+</div>
+<h2>Расчёт к пятнице</h2>
+<div class="stat-grid">
+    <div class="stat-card">
+        <div class="label">Мои авансы</div>
+        <div class="value">{{ fmt(adv_katya) }}</div>
+    </div>
+    <div class="stat-card">
+        <div class="label">К выплате мне</div>
+        <div class="value">{{ fmt(to_pay_katya) }}</div>
+    </div>
+</div>
+{% endblock %}

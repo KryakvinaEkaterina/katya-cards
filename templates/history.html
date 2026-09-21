@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>История выдач</h2>
+<div class="form-card">
+    <form method="get" style="display:flex;gap:8px;margin-bottom:16px;">
+        <input type="text" name="q" value="{{ q }}" placeholder="Поиск по дате, продукту..." style="flex:1;padding:8px;border:1px solid #e0c0d0;border-radius:8px;">
+        <button type="submit" class="btn btn-small">Искать</button>
+        <a href="{{ url_for('history') }}" class="btn btn-small btn-secondary">Сброс</a>
+    </form>
+    <table>
+        <tr><th>Дата</th><th>Кто</th><th>Продукт</th><th>Кол-во</th><th>Доход</th><th></th></tr>
+        {% for r in issues %}
+        <tr>
+            <td>{{ r['date'] }}</td>
+            <td>{{ 'Катя' if r['who']=='katya' else 'Стажёрка' }}</td>
+            <td>{{ products[r['product']]['name'] if r['product'] in products else r['product'] }}</td>
+            <td>{{ r['qty'] }}</td>
+            <td>{{ fmt(r['amount']) }}</td>
+            <td style="white-space:nowrap;">
+                <a href="{{ url_for('edit', rid=r['id']) }}" class="btn btn-small">Изменить</a>
+                <form method="post" action="{{ url_for('delete', rid=r['id']) }}" style="display:inline;" onsubmit="return confirm('Удалить запись?')">
+                    <button type="submit" class="btn btn-small btn-danger">Удалить</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+        {% if not issues %}
+        <tr><td colspan="6" style="color:#999;text-align:center;padding:20px;">Записей нет</td></tr>
+        {% endif %}
+    </table>
+</div>
+{% endblock %}

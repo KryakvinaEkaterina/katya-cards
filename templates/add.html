@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Добавить выдачу</h2>
+<div class="form-card">
+    <form method="post" id="addForm">
+        <div class="form-group">
+            <label>Кто выдаёт</label>
+            <div class="who-selector">
+                <div class="who-option active" data-who="katya" onclick="selectWho('katya')">Я</div>
+                <div class="who-option" data-who="agent" onclick="selectWho('agent')">Стажёрка</div>
+            </div>
+            <input type="hidden" name="who" id="whoInput" value="katya">
+        </div>
+        <div class="form-group">
+            <label>Продукт</label>
+            <div class="product-grid">
+                {% for key, p in products.items() %}
+                <div class="product-option" data-product="{{ key }}" onclick="selectProduct('{{ key }}')">
+                    <div class="name">{{ p.name }}</div>
+                    <div class="rate">{{ p.rate }} руб/карта</div>
+                </div>
+                {% endfor %}
+            </div>
+            <input type="hidden" name="product" id="productInput" required>
+        </div>
+        <div class="form-group">
+            <label>Дата</label>
+            <input type="date" name="date" value="{{ today }}" required>
+        </div>
+        <div class="form-group">
+            <label>Количество карт</label>
+            <input type="number" name="qty" id="qtyInput" min="1" value="1" required oninput="calcSum()">
+        </div>
+        <div class="form-group">
+            <label>Сумма к получению</label>
+            <div class="stat-card" style="text-align:left;">
+                <div class="value" id="sumDisplay">0</div>
+            </div>
+        </div>
+        <button type="submit" class="btn">Добавить</button>
+    </form>
+</div>
+<script>
+const RATES = {
+    {% for key, p in products.items() %}
+    "{{ key }}": {{ p.rate }},
+    {% endfor %}
+};
+const AGENT_RATE = 250;
+function selectWho(who) {
+    document.querySelectorAll('.who-option').forEach(el => el.classList.remove('active'));
+    document.querySelector('[data-who="'+who+'"]').classList.add('active');
+    document.getElementById('whoInput').value = who;
+    calcSum();
+}
+function selectProduct(prod) {
+    document.querySelectorAll('.product-option').forEach(el => el.classList.remove('active'));
+    document.querySelector('[data-product="'+prod+'"]').classList.add('active');
+    document.getElementById('productInput').value = prod;
+    calcSum();
+}
+function calcSum() {
+    const who = document.getElementById('whoInput').value;
+    const prod = document.getElementById('productInput').value;
+    const qty = parseInt(document.getElementById('qtyInput').value) || 0;
+    let rate;
+    if (who === 'agent') { rate = AGENT_RATE; }
+    else if (prod && RATES[prod]) { rate = RATES[prod]; }
+    else { rate = 0; }
+    document.getElementById('sumDisplay').textContent = (rate * qty).toLocaleString('ru-RU') + ' руб';
+}
+</script>
+{% endblock %}
