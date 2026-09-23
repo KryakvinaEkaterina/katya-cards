@@ -16,8 +16,8 @@ PRODUCTS = {
     "yandex": {"name": "Яндекс Сплит", "rate": 1500},
 }
 AGENT_RATE = 250
-LOGIN_USER = "katya"
-LOGIN_PASS = "katya2026"
+LOGIN_USER = "Pikmi2026"
+LOGIN_PASS = "glamur18"
 PLAN_DEFAULT = 5
 
 # ============ БАЗА ДАННЫХ ============
